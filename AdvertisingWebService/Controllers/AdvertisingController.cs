@@ -82,8 +82,13 @@ namespace AdvertisingWebService.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
+            _logger.LogInformation("ВызваН Api метод UploadFile");
             if (file == null || file.Length == 0)
+            {
+                _logger.LogWarning("Файл не загружен");
                 return BadRequest("Файл не загружен");
+            }
+                
 
             await _service.LoadFromFileAsync(file);
             return Ok("Файл загружен и обработан");
