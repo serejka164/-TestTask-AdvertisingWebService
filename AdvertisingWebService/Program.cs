@@ -1,3 +1,4 @@
+using AdvertisingWebService.Services;
 using Microsoft.AspNetCore.Builder;
 using NLog;
 using NLog.Web;
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 // Add services to the container.
-
+builder.Services.AddSingleton<AdvertisingService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();

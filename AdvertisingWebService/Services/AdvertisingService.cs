@@ -48,7 +48,7 @@ namespace AdvertisingWebService.Services
 
         public List<string> GetPlatformsList(string location)
         {
-            _logger.LogError($"Получаем список платформ в сервисе");
+            _logger.LogInformation($"Получаем список платформ в сервисе");
             if (location == null)
             {
                 _logger.LogError($"Пустой поисковой запрос");
@@ -73,7 +73,7 @@ namespace AdvertisingWebService.Services
 
             //Более эфективно будет использовать линкью
             var result = tempList.Where(x=> x.Locations.Any(l=> location.StartsWith(l))).Select(x=>x.Name).Distinct().ToList();
-            _logger.LogError($"Возвращаем {result.Count()} платформ");
+            _logger.LogInformation($"Возвращаем {result.Count()} платформ");
             return result;
         }
 
