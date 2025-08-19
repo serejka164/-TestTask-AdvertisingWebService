@@ -5,13 +5,22 @@ namespace AdvertisingWebService.Services
     public class AdvertisingService
     {
         private readonly List<AdvertisingModel> _adsPlatforms = new List<AdvertisingModel>();
+        private readonly ILogger<AdvertisingService> _logger;
+
+        public AdvertisingService(ILogger<AdvertisingService> logger)
+        {
+            _logger = logger;   
+        }
 
         public void LoadFromFile(string path)
         {
+            _logger.LogInformation("Начинаем загрузку платформ из файла");
             var newAdsPlatforms = new List<AdvertisingModel>();
 
             if (!File.Exists(path))
-                return;
+            {
+                _logger.LogWarning($"Нет файла по пути {path}, пропускаем загрузку");
+                return; }
 
             foreach (var line in File.ReadLines(path))
             {
@@ -23,21 +32,26 @@ namespace AdvertisingWebService.Services
 
                     if ((name != null) && (locations.Count() > 0))
                         newAdsPlatforms.Add(new AdvertisingModel { Locations = locations, Name = name });
+
+                    _logger.LogInformation($"Обработали и добавили строку {line}");
                 }catch(Exception ex)
                 {
+                    _logger.LogError($"Не смогли обработать строку {line}, причина {ex.Message}");
                     continue;
                 }
             }
             
             _adsPlatforms.Clear();
             _adsPlatforms.AddRange(newAdsPlatforms);
-        
+            _logger.LogInformation($"Обработали файл, добавили {newAdsPlatforms.Count()} платформ");
         }
 
         public List<string> GetPlatformsList(string location)
         {
+            _logger.LogError($"Получаем список платформ в сервисе");
             if (location == null)
             {
+                _logger.LogError($"Пустой поисковой запрос");
                 return new List<string>();
             }
 
@@ -59,6 +73,7 @@ namespace AdvertisingWebService.Services
 
             //Более эфективно будет использовать линкью
             var result = tempList.Where(x=> x.Locations.Any(l=> location.StartsWith(l))).Select(x=>x.Name).Distinct().ToList();
+            _logger.LogError($"Возвращаем {result.Count()} платформ");
             return result;
         }
         
