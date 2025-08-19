@@ -39,7 +39,7 @@ namespace AdvertisingWebService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Ошибка при загрузке файла {pathToFile}");
-                return StatusCode(500, "Ошибка при загрузке данных");
+                return StatusCode(500, $"Ошибка при загрузке данных: {ex.Message}");
             }
 
         }

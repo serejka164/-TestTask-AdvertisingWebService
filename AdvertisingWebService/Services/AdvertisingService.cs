@@ -20,7 +20,8 @@ namespace AdvertisingWebService.Services
             if (!File.Exists(path))
             {
                 _logger.LogWarning($"Нет файла по пути {path}, пропускаем загрузку");
-                return; }
+                throw new FileNotFoundException($"Файл не найден по пути {path}");
+            }
 
             foreach (var line in File.ReadLines(path))
             {
