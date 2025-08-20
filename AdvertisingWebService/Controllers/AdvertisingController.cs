@@ -22,7 +22,7 @@ namespace AdvertisingWebService.Controllers
         /// <param name="pathToFile">Путь к файлу</param>
         /// <returns>Возвращает статус операции</returns>
         [HttpPost("load")]
-        public IActionResult Load([FromQuery] string pathToFile) {
+        public IActionResult Load([FromQuery] string? pathToFile) {
             _logger.LogInformation("ВызваН Api метод Load");
             if (pathToFile==null)
             {
@@ -50,7 +50,7 @@ namespace AdvertisingWebService.Controllers
         /// <param name="location">Локация, например: /ru/svrd</param>
         /// <returns></returns>
         [HttpGet("search")]
-        public IActionResult Search([FromQuery] string location)
+        public IActionResult Search([FromQuery] string? location)
         {
             _logger.LogInformation("Вызван Api метод Search");
             if (string.IsNullOrWhiteSpace(location))
@@ -80,18 +80,26 @@ namespace AdvertisingWebService.Controllers
         /// <param name="file">Файл в формате text/plain </param>
         /// <returns></returns>
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile? file)
         {
             _logger.LogInformation("ВызваН Api метод UploadFile");
             if (file == null || file.Length == 0)
             {
-                _logger.LogWarning("Файл не загружен");
-                return BadRequest("Файл не загружен");
+                _logger.LogWarning("Файл не передан");
+                return BadRequest("Файл не передан");
             }
-                
 
-            await _service.LoadFromFileAsync(file);
-            return Ok("Файл загружен и обработан");
+            try
+            {
+                await _service.LoadFromFileAsync(file);
+                return Ok("Данные успешно загружены");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка при загрузке файла");
+                return StatusCode(500, $"Ошибка при загрузке файла: {ex.Message}");
+            }
+
         }
     }
 }
