@@ -97,7 +97,7 @@ namespace AdvertisingWebService.Tests
             var result = await _controller.UploadFile(null);
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Файл не загружен", badRequest.Value);
+            Assert.Equal("Файл не передан", badRequest.Value);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace AdvertisingWebService.Tests
             var result = await _controller.UploadFile(fileMock.Object);
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Файл не загружен", badRequest.Value);
+            Assert.Equal("Файл не передан", badRequest.Value);
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace AdvertisingWebService.Tests
             _serviceMock.Verify(s => s.LoadFromFileAsync(fileMock.Object), Times.Once);
 
             var ok = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Файл загружен и обработан", ok.Value);
+            Assert.Equal("Данные успешно загружены", ok.Value);
         }
     }
 }
