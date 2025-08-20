@@ -26,7 +26,7 @@ dotnet --version
 ```
 Клоинруем репозиторий
 ```
-git clone https://github.com/serejka164/-TestTask-AdvertisingWebService
+git clone https://github.com/serejka164/TestTask-AdvertisingWebService
 cd TestTask-AdvertisingWebService
 ```
 Компиляция
