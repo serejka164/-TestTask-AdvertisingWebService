@@ -7,10 +7,10 @@ namespace AdvertisingWebService.Controllers
     [Route("api/v1/[controller]")]
     public class AdvertisingController : ControllerBase
     {
-        private readonly AdvertisingService _service;
+        private readonly IAdvertisingService _service;
         private readonly ILogger<AdvertisingController> _logger;
 
-        public AdvertisingController(ILogger<AdvertisingController> logger, AdvertisingService service)
+        public AdvertisingController(ILogger<AdvertisingController> logger, IAdvertisingService service)
         {
             _logger = logger;
             _service = service;

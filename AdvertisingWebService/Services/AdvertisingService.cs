@@ -2,7 +2,13 @@
 
 namespace AdvertisingWebService.Services
 {
-    public class AdvertisingService
+    public interface IAdvertisingService
+    {
+        void LoadFromFile(string path);
+        List<string> GetPlatformsList(string location);
+        Task LoadFromFileAsync(IFormFile file);
+    }
+    public class AdvertisingService : IAdvertisingService
     {
         private readonly List<AdvertisingModel> _adsPlatforms = new List<AdvertisingModel>();
         private readonly ILogger<AdvertisingService> _logger;
